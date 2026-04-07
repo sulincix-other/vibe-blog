@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}} - Admin</title>
+    <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+    <header>
+        <h2>{{title}}</h2>
+        <a href="/admin/dashboard.html">← Back</a>
+    </header>
+    <div class="container">
+        <form id="postForm">
+            <input type="hidden" name="slug" value="{{slug}}">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" name="title" value="{{post_title}}" placeholder="Enter post title" required>
+            </div>
+            <div class="form-group">
+                <label>Content (Markdown)</label>
+                <div class="toolbar">
+                    <label for="uploadInput">+ Add Image</label>
+                    <input type="file" id="uploadInput" accept="image/*">
+                </div>
+                <textarea name="content" id="content" placeholder="Write your post content here..." required>{{post_content}}</textarea>
+            </div>
+            <div class="btn-row">
+                <button type="submit" class="btn">{{button_text}}</button>
+                <a href="/admin/dashboard.html" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('postForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const isEdit = document.querySelector('input[name="slug"]').value !== '';
+            const endpoint = isEdit ? '/api/posts/update' : '/api/posts';
+            
+            await fetch(endpoint, {
+                method: 'POST',
+                body: JSON.stringify(Object.fromEntries(formData)),
+                headers: {'Content-Type': 'application/json'}
+            });
+            window.location.href = '/admin/dashboard.html';
+        });
+        
+        document.getElementById('uploadInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            
+            if (data.success) {
+                const textarea = document.getElementById('content');
+                const cursor = textarea.selectionStart;
+                const text = textarea.value;
+                const alt = (typeof data.name !== 'undefined' && data.name) ? data.name : 'image';
+                const markdown = '![' + alt + '](' + data.url + ')';
+                textarea.value = text.slice(0, cursor) + markdown + text.slice(cursor);
+            }
+        });
+    </script>
+</body>
+</html>

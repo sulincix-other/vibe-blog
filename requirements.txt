@@ -1,0 +1,4 @@
+# No external dependencies - uses Python stdlib only
+# Optional: for development
+# flask>=2.0
+# werkzeug>=2.0

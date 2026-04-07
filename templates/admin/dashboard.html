@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Admin</title>
+    <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+    <header>
+        <h2>Dashboard</h2>
+        <div>
+            <a href="/api/logout">Logout</a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="header-row">
+            <h1>Posts</h1>
+            <a href="/admin/posts/edit.html" class="btn">+ New Post</a>
+        </div>
+        <table>
+            <thead>
+                <tr><th>Title</th><th>Date</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {{posts}}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function deletePost(slug) {
+            if (!confirm("Delete this post?")) return;
+            fetch('/api/posts/delete?slug=' + slug, {method: 'POST'}).then(() => location.reload());
+        }
+    </script>
+</body>
+</html>

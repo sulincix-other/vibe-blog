@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[[title]] - [[site_title]]</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script>
+        const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html" class="logo">
+                <img src="/static/logo.svg" alt="Logo" class="logo-img">
+                [[site_title]]
+            </a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../about.html">About</a>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">◐</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article class="post-content">
+            <a href="../index.html" class="back-link">← Back to home</a>
+            
+            <span class="date">[[date]]</span>
+            <h1>[[title]]</h1>
+            [[content]]
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; [[year]] [[site_title]]. [[footer_text]]</p>
+    </footer>
+
+    <script>
+        function getTheme() {
+            return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        }
+        
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        
+        function toggleTheme() {
+            setTheme(getTheme() === 'light' ? 'dark' : 'light');
+        }
+    </script>
+</body>
+</html>
