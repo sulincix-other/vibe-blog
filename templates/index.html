@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <script>
         const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', theme);
@@ -13,7 +13,7 @@
     <header>
         <nav>
             <a href="index.html" class="logo">
-                <img src="/static/logo.svg" alt="Logo" class="logo-img">
+                <img src="logo.svg" alt="Logo" class="logo-img">
                 [[site_title]]
             </a>
             <div class="nav-right">

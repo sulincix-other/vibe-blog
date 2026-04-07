@@ -178,10 +178,13 @@ def main():
     os.makedirs(posts_dir, exist_ok=True)
     os.makedirs(posts_src, exist_ok=True)
     
-    static_css = 'static/styles.css'
-    if os.path.exists(static_css):
-        shutil.copy(static_css, build_dir)
-        print(f'Copied: {static_css} -> {build_dir}')
+    static_dir = 'static'
+    if os.path.exists(static_dir):
+        for fname in os.listdir(static_dir):
+            src_path = os.path.join(static_dir, fname)
+            if os.path.isfile(src_path):
+                shutil.copy(src_path, build_dir)
+        print(f'Copied: {static_dir}/ -> {build_dir}')
     
     posts = []
     for filename in os.listdir(posts_src):
